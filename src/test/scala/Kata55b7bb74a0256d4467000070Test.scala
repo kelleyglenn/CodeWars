@@ -20,24 +20,31 @@ class Kata55b7bb74a0256d4467000070Test extends AnyFlatSpec with Matchers {
   "knownPrimes" should "generate quickly" in {
     for (_ <- 1 to 1000) {
       Kata55b7bb74a0256d4467000070.knownPrimes(50000) should be(611957)
-      //      Kata55b7bb74a0256d4467000070.knownPrimes(500000) should be(7368791)
     }
   }
   "primeFactorsOf Integers" should "work" in {
-    Kata55b7bb74a0256d4467000070.primeFactorsOf(3) should equal(List(3))
     Kata55b7bb74a0256d4467000070.primeFactorsOf(6) should equal(List(2, 3))
     Kata55b7bb74a0256d4467000070.primeFactorsOf(10) should equal(List(2, 5))
     Kata55b7bb74a0256d4467000070.primeFactorsOf(30) should equal(List(2, 3, 5))
     Kata55b7bb74a0256d4467000070.primeFactorsOf(99) should equal(List(3, 11))
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(210) should equal(List(2, 3, 5, 7))
     Kata55b7bb74a0256d4467000070.primeFactorsOf(89280) should equal(List(2, 3, 5, 31))
   }
-//  "primeFactorsOf Integers" should "work quickly" in {
-//    Kata55b7bb74a0256d4467000070.primeFactorsOf(Int.MaxValue - 1) should equal(List(2, 3, 7,11,31,151,331))
-//    Kata55b7bb74a0256d4467000070.primeFactorsOf(Int.MaxValue) should equal(List())
-//  }
-  "primeFactorsOf Longs" should "work" in {
-    Kata55b7bb74a0256d4467000070.primeFactorsOf(Int.MaxValue + 1L).head should be(2)
-    Kata55b7bb74a0256d4467000070.primeFactorsOf(Long.MaxValue - 1).head should be(2)
+  "primeFactorsOf Integers" should "work quickly" in {
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(Int.MaxValue - 1) should equal(List(2, 3, 7, 11, 31, 151, 331))
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(Int.MaxValue) should equal(List(Int.MaxValue))
+  }
+  "primeFactorsOf Longs" should "work quickly" in {
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(Int.MaxValue + 1L) should equal(List(2))
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(4816623752L) should equal(List(2, 23, 89, 294127))
+  }
+  "combinations" should "behave as expected" in {
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(210).combinations(1).toList should
+      equal(List(List(2), List(3), List(5), List(7)))
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(210).combinations(2).toList should
+      equal(List(List(2, 3), List(2, 5), List(2, 7), List(3, 5), List(3, 7), List(5, 7)))
+    Kata55b7bb74a0256d4467000070.primeFactorsOf(210).combinations(3).toList should
+      equal(List(List(2, 3, 5), List(2, 3, 7), List(2, 5, 7), List(3, 5, 7)))
   }
   "properFractions(1)" should "return 0" in {
     Kata55b7bb74a0256d4467000070.properFractions(1) should be(0)
@@ -54,8 +61,14 @@ class Kata55b7bb74a0256d4467000070Test extends AnyFlatSpec with Matchers {
   "properFractions(25)" should "return 20" in {
     Kata55b7bb74a0256d4467000070.properFractions(25) should be(20)
   }
-  //  "properFractions(4816623752)" should "return 2277711744" in {
-  //    Kata55b7bb74a0256d4467000070.properFractions(4816623752L) should be(2277711744L)
-  //  }
+  "properFractions(30)" should "return 8" in {
+    Kata55b7bb74a0256d4467000070.properFractions(30) should be(8)
+  }
+  "properFractions(210)" should "return 48" in {
+    Kata55b7bb74a0256d4467000070.properFractions(210) should be(48)
+  }
+  "properFractions(4816623752)" should "return 2277711744" in {
+    Kata55b7bb74a0256d4467000070.properFractions(4816623752L) should be(2277711744L)
+  }
 
 }

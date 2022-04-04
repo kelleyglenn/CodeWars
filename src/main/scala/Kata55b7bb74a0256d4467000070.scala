@@ -1,13 +1,5 @@
 
 object Kata55b7bb74a0256d4467000070 {
-  def properFractionsForSmall(d: Long): Long = {
-    Range.Long.inclusive(1, d - 1, 1).count(n => Range.Long.inclusive(1, n, 1).filter(f => d % f == 0 && n % f == 0).max == 1)
-  }
-
-  def primeFactorsOf(l: Long): LazyList[Long] = {
-    knownPrimes.takeWhile(_ <= l).filter(p => l % p == 0)
-  }
-
   val knownOddPrimes: LazyList[Long] = 3L #:: knownOddPrimes.map(prev => {
     var candidate = prev + 2L
     while (knownOddPrimes.takeWhile(p => p * p <= candidate).exists(p => candidate % p == 0)) {
@@ -17,14 +9,26 @@ object Kata55b7bb74a0256d4467000070 {
   })
   val knownPrimes: LazyList[Long] = 2L #:: knownOddPrimes
 
-  def properFractions(denominator: Long): Long = {
-    var count: Long = 0
-    var numerator: Long = 1
-    val denominatorFactors = primeFactorsOf(denominator)
-    while (numerator < denominator) {
-      if (!denominatorFactors.exists(numerator % _ == 0)) count += 1
-      numerator += 1
+  def primeFactorsOf(l: Long): Seq[Long] = {
+    allPrimeFactorsOf(l).distinct
+  }
+
+  def allPrimeFactorsOf(l: Long): Seq[Long] = {
+    if (l < 2) Seq.empty
+    else {
+      val firstPrimeFactor = knownPrimes.dropWhile(p => l % p != 0 && p * p <= l).head
+      if (l % firstPrimeFactor == 0) firstPrimeFactor +: primeFactorsOf(l / firstPrimeFactor)
+      else Seq(l)
     }
+  }
+
+  def properFractions(denominator: Long): Long = {
+    val maxNumerator = denominator - 1
+    var count: Long = denominator - 1
+    val denominatorFactors = primeFactorsOf(denominator)
+    (1 to denominatorFactors.length).foreach(numberOfFactors => {
+      count += (if (numberOfFactors % 2 == 0) 1 else -1) * denominatorFactors.combinations(numberOfFactors).map(maxNumerator / _.product).sum
+    })
     count
   }
 }
